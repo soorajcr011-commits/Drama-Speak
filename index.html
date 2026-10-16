@@ -1,0 +1,124 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Drama Speak</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#0b1426;--card:#14213d;--card2:#1b2b4d;--tx:#eef1f7;--mu:#9fb0cf;--am:#f5a524;--ok:#58c58a;--bd:#2a3c63;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root{--bg:#0b1426}}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 Georgia,'Times New Roman',serif}
+.w{max-width:880px;margin:0 auto;padding:20px 16px 60px}
+h1,h2,h3{margin:0 0 8px;line-height:1.25}h1{font-size:30px;letter-spacing:.5px}h1 span{color:var(--am)}
+.mu{color:var(--mu);font-size:14px;font-family:system-ui,sans-serif}
+.g{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:18px}
+.c{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:12px}
+.tag{display:inline-block;font:12px system-ui,sans-serif;border:1px solid var(--bd);border-radius:99px;padding:2px 10px;margin:0 6px 6px 0;color:var(--mu)}
+.bar{height:6px;background:var(--bd);border-radius:9px;overflow:hidden;margin:10px 0}.bar i{display:block;height:100%;background:var(--am)}
+button{font:600 16px system-ui,sans-serif;min-height:48px;padding:0 18px;border-radius:12px;border:1px solid var(--am);background:transparent;color:var(--am);cursor:pointer;margin:4px 6px 4px 0}
+button.p{background:var(--am);color:#1a1200}button.s{border-color:var(--bd);color:var(--tx)}button:disabled{opacity:.5}
+textarea{width:100%;min-height:120px;background:#0e1a33;color:var(--tx);border:1px solid var(--bd);border-radius:12px;padding:12px;font:17px/1.5 Georgia,serif;resize:vertical}
+.ov{position:fixed;inset:0;background:rgba(5,10,22,.85);overflow:auto;padding:16px;z-index:5}.ov .c{max-width:760px;margin:10px auto;background:var(--card2)}
+.q{border-left:3px solid var(--am);padding-left:12px;font-size:19px;margin:10px 0}
+.f{border-color:var(--am)}.f b{color:var(--am)}ul{margin:4px 0 10px;padding-left:20px}
+.err{color:#ff8a80;font:14px system-ui,sans-serif}.row{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.sb{display:flex;justify-content:space-between;font:14px system-ui,sans-serif;margin:6px 0}
+</style></head><body><div id="root"></div>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+const {useState,useEffect}=React;const html=htm.bind(React.createElement);
+const S=(loc,set,actor,line,hint,kw,alt,act,sug)=>({loc,set,actor,line,hint,kw,alt,act,sug});
+const STORIES=[
+{id:'job',title:'The Job Interview',desc:'Win a product role by speaking clearly and confidently.',diff:'Intermediate',dur:'8 min',
+ b:{film:'"Final Round" — a corporate drama',ctx:'Thursday 9:00 AM, glass-walled meeting room at Nova Tech.',char:'Alex Rivera',pers:'Ambitious, prepared, slightly nervous.',before:'You passed two phone screens. This is the last interview for the role you want most.',obj:'Convince the panel you are the right hire.',emo:'Confident calm',how:'Speak slowly, keep your voice low and steady, and pause after key points.',vocab:['strength','achieve','collaborate','deadline'],phr:['I would describe myself as…','One achievement I\'m proud of is…','I\'m excited about the opportunity to…'],prac:'Answer in 2–3 sentences. Give one concrete example.'},
+ sc:[S('Nova Tech, Meeting Room','A bright room, a long table, two interviewers with notebooks.','Ms. Chen (Interviewer)','Thanks for coming in. Please start by telling us a little about yourself.','Say your background, a strength, and why you applied.',['i am','experience','work','role','background','my name'],'I\'m a product analyst with three years of experience, and I\'m excited to grow into a leadership role.','Warm and steady, with a small smile.','Thank you for having me. I\'m a product analyst with three years of experience, and I love turning data into decisions.'),
+ S('Nova Tech, Meeting Room','Mr. Patel leans forward and checks your resume.','Mr. Patel (Hiring Manager)','Tell me about a time you faced a tough deadline. What did you do?','Use: the situation, what you did, the result.',['deadline','team','finished','result','plan','priorit'],'We had a tight deadline, so I prioritized the key tasks and we delivered on time.','Firm and proud, but not boastful.','Last quarter we had a tight deadline, so I prioritized the key features and our team delivered two days early.'),
+ S('Nova Tech, Meeting Room','The interview is ending. Ms. Chen closes her notebook.','Ms. Chen (Interviewer)','Do you have any questions for us before we finish?','Ask about the team, growth, or next steps.',['team','what','how','next','role','culture'],'Could you tell me what success looks like in this role during the first six months?','Curious and engaged.','Yes, could you tell me what success looks like in this role in the first six months?')]},
+{id:'witness',title:'The Mystery Witness',desc:'Describe what you saw and ask smart questions to the detective.',diff:'Intermediate',dur:'8 min',
+ b:{film:'"Rain Street" — a detective thriller',ctx:'Late evening, a police station interview room.',char:'Sam Okafor',pers:'Observant, shaken, honest.',before:'You saw a man run out of a jewelry shop near your bus stop around 9 PM.',obj:'Explain clearly what you saw and learn what happens next.',emo:'Worried but focused',how:'Slightly faster pace, but pause when recalling details.',vocab:['suspect','witness','around','suddenly'],phr:['I saw a man who…','It happened at about…','Can you tell me whether…?'],prac:'Use past tense verbs (saw, ran, wore).'},
+ sc:[S('Police Station, Room 2','A metal table, a recorder blinking red.','Detective Lane','Please tell me what you saw tonight. Start from the beginning.','Use past tense: I saw, he ran, he wore.',['saw','man','ran','shop','night','around','wore'],'I was waiting for the bus when I saw a man run out of the shop carrying a bag.','Tense but clear.','I was at the bus stop when I saw a tall man in a black jacket run out of the jewelry shop.'),
+ S('Police Station, Room 2','Lane slides a notepad toward you.','Detective Lane','Can you describe his face or clothes? Anything unusual?','Describe colors, height, and one unusual detail.',['black','tall','jacket','hair','wore','scar','hat','tattoo'],'He was tall and wearing a dark jacket, and he had a small scar on his chin.','Slow down as you remember.','He was tall, wearing a dark hooded jacket, and I think he had a scar on his chin.'),
+ S('Police Station, Hallway','Lane stands to leave and hands you a card.','Detective Lane','Thank you. Is there anything you would like to ask me?','Ask what happens next or if you are safe.',['what','will','safe','next','need','?','should'],'What happens next, and should I be worried about my safety?','Concerned but polite.','What happens next, and do I need to do anything else to help?')]},
+{id:'restaurant',title:'A Night at the Restaurant',desc:'Order, ask, and chat naturally in a busy restaurant.',diff:'Beginner',dur:'6 min',
+ b:{film:'"Table for Two" — a romantic comedy',ctx:'Saturday night, a busy Italian restaurant.',char:'Jamie Cole',pers:'Friendly, relaxed, a bit indecisive.',before:'You booked this place to celebrate a friend\'s birthday.',obj:'Order a meal and handle a small problem politely.',emo:'Warm and cheerful',how:'Smile in your voice, keep rhythm light and natural.',vocab:['reservation','allergic','recommend','bill'],phr:['I\'d like…, please.','What would you recommend?','Could we have…?'],prac:'Use polite forms: could, would, I\'d like.'},
+ sc:[S('Il Girasole, Entrance','Candles, noise, a host with a tablet.','Marco (Host)','Good evening! Do you have a reservation?','Give a name and number of people.',['reservation','table','name','two','booked','for'],'Yes, I have a reservation for two under Jamie.','Cheerful and relaxed.','Good evening! Yes, we have a reservation for two under Cole.'),
+ S('Il Girasole, Table 6','A menu on the table, steam from fresh bread.','Marco (Waiter)','What can I get started for you tonight?','Ask for a recommendation and order.',['would','like','please','recommend','pasta','have'],'I\'d like the pasta, please. What would you recommend to drink?','Playful, a little indecisive.','I\'d like the mushroom pasta, please. What would you recommend to drink?'),
+ S('Il Girasole, Table 6','The pasta arrives, but it is cold.','Marco (Waiter)','Here you go! Is everything okay?','Politely say there is a problem and ask for a fix.',['cold','sorry','could','please','replace','warm','another'],'Sorry, but the pasta is a bit cold. Could you warm it up, please?','Polite but clear — not angry.','Sorry to bother you, but my pasta is a little cold. Could you possibly warm it up?')]},
+{id:'difficult',title:'The Difficult Conversation',desc:'Express feelings respectfully when something is wrong.',diff:'Advanced',dur:'9 min',
+ b:{film:'"Quiet Rooms" — a family drama',ctx:'Sunday afternoon, the kitchen of a shared apartment.',char:'Robin Hale',pers:'Kind, conflict-averse, finally ready to speak up.',before:'Your roommate has missed rent twice and hosts loud late-night guests.',obj:'Say what bothers you without starting a fight.',emo:'Calm firmness',how:'Soft tone, steady pace, no sarcasm.',vocab:['upset','respect','boundary','understand'],phr:['I feel… when…','I would appreciate it if…','Can we find a solution?'],prac:'Start with "I feel" instead of "You always".'},
+ sc:[S('Shared Apartment, Kitchen','Two mugs of tea. Your roommate Dana sits across.','Dana (Roommate)','You said you wanted to talk. What\'s up?','Start gently and name one issue.',['feel','when','noise','late','rent','talk','upset'],'I feel stressed when there is loud noise late at night, and I\'d like us to talk about it.','Calm, honest, a little vulnerable.','I wanted to talk because I feel stressed when we have loud guests late at night.'),
+ S('Shared Apartment, Kitchen','Dana crosses her arms, defensive.','Dana (Roommate)','I think you\'re overreacting. It\'s only a few parties.','Stay calm. Acknowledge, then restate your need.',['understand','but','need','sleep','respect','appreciate','work'],'I understand you like having friends over, but I need sleep for work.','Firm, steady, not angry.','I understand you enjoy having friends over, but I really need quiet to sleep before work.'),
+ S('Shared Apartment, Kitchen','Dana relaxes and sighs.','Dana (Roommate)','Okay... what do you want me to do?','Suggest a clear, fair solution.',['could','can','after','agree','rent','quiet','weekend','solution'],'Could we agree on quiet hours after 10 PM, and could we also talk about the rent?','Relieved, respectful.','Could we agree on quiet hours after 10 PM on weeknights, and sort out the rent by Friday?')]},
+{id:'stranded',title:'Stranded Abroad',desc:'Ask for help and solve travel problems in a foreign city.',diff:'Intermediate',dur:'8 min',
+ b:{film:'"Last Train to Lisbon" — an adventure',ctx:'Midnight, a nearly empty train station.',char:'Morgan Reyes',pers:'Resourceful, tired, determined.',before:'You missed the last train and your phone battery is dead.',obj:'Find a way to reach your hotel tonight.',emo:'Urgent but polite',how:'Speak clearly and a bit slower so you are understood.',vocab:['missed','directions','nearest','charge'],phr:['Excuse me, could you help me?','How do I get to…?','Is there a… nearby?'],prac:'Start with "Excuse me" and ask one clear question.'},
+ sc:[S('Central Station, Platform 3','Flickering lights. One staff member sweeps the floor.','Ines (Station Staff)','Sorry, the last train left ten minutes ago. Can I help you?','Explain the problem and ask for options.',['missed','train','hotel','how','get','help','excuse'],'Excuse me, I missed the last train. How can I get to the Marquês hotel tonight?','Urgent but polite.','Excuse me, I missed the last train and I need to get to my hotel. What are my options?'),
+ S('Central Station, Taxi Rank','Ines points outside to a lone taxi.','Ines (Station Staff)','A taxi costs about thirty euros. A night bus is cheaper but slower.','Compare and decide. Ask about time or location.',['bus','taxi','how long','where','cheaper','cost','minutes','stop'],'The bus sounds better. How long does it take, and where is the stop?','Relieved, practical.','I\'ll take the night bus, please. How long does it take, and where is the stop?'),
+ S('Bus Stop','Your phone is dead. A passenger looks friendly.','Tomas (Passenger)','You look lost. Do you need something?','Ask to borrow a charger or confirm the stop.',['charge','phone','dead','stop','this bus','could','nearest','hotel'],'My phone is dead. Could you tell me if this bus goes near the Marquês?','Grateful, a little embarrassed.','Excuse me, my phone died. Could you tell me if this bus stops near the Marquês hotel?')]}];
+const KEY='moviespeak_v1';
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return null}}
+const clamp=n=>Math.max(40,Math.min(98,Math.round(n)));
+function evalLine(t,sc){const l=' '+t.toLowerCase()+' ',w=t.trim().split(/\s+/),n=w.length,hits=sc.kw.filter(k=>l.includes(k));
+ const polite=/please|could|would|i'd|i'm|thank|excuse|sorry|appreciate/.test(l),cap=/^[A-Z]/.test(t.trim()),end=/[.?!]$/.test(t.trim()),lowI=/ i /.test(' '+t+' ')&&!/ I /.test(' '+t+' ');
+ const uniq=new Set(w.map(x=>x.toLowerCase())).size/n,iss=[];
+ if(n<6)iss.push('Add a little more detail (a reason or an example) so your meaning is complete.');
+ if(!polite)iss.push('Add a softening phrase like "could", "I\'d like" or "please" to sound more natural.');
+ if(!cap||!end)iss.push('Check capital letters and ending punctuation to make the line easier to read.');
+ if(lowI)iss.push('Write "I" as a capital letter.');
+ if(n>45)iss.push('Try splitting this into two shorter sentences for a clearer delivery.');
+ if(!hits.length)iss.push('Link your answer more directly to what the other character just said.');
+ const sc2={clarity:clamp(60+Math.min(n,18)*1.5-(n>45?12:0)),grammar:clamp(72+(cap?8:-6)+(end?8:-4)-(lowI?10:0)),vocabulary:clamp(58+uniq*25+Math.min(n,15)),natural:clamp(60+(polite?20:0)+(/[a-z]'[a-z]/i.test(t)?8:0)),relevance:clamp(52+hits.length/sc.kw.length*130)};
+ return{scores:sc2,ok:hits.length?['You responded on topic ('+hits.slice(0,3).join(', ')+').','Your message is understandable and fits the situation.']:['You made an attempt and kept the conversation going.'],imp:iss.slice(0,2).length?iss.slice(0,2):['Nice work. For more polish, vary your sentence openings.']};}
+function say(t){try{const u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=.95;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+const tts=typeof window!=='undefined'&&'speechSynthesis'in window&&typeof SpeechSynthesisUtterance!=='undefined';
+function App(){
+ const init=load(),[persist]=useState(init!==null),[st,setSt]=useState(init||{}),[scr,setScr]=useState('intro'),[sid,setSid]=useState(null),[ses,setSes]=useState(null);
+ const [txt,setTxt]=useState(''),[fb,setFb]=useState(null),[err,setErr]=useState(''),[hint,setHint]=useState(false),[mic,setMic]=useState(false);
+ useEffect(()=>{if(persist)try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}},[st]);
+ const story=STORIES.find(s=>s.id===sid),rec=id=>st[id]||{n:0,done:false};
+ const pct=id=>rec(id).done?100:Math.round(rec(id).n/3*100);
+ const open=id=>{setSid(id);setScr('brief')};
+ const start=(replay)=>{const r=rec(sid);const idx=replay||r.done?0:r.n;setSes({idx,replay:!!(replay||r.done),log:r.done||replay?[]:(r.log||[]),sc:replay||r.done?[]:(r.sc||[])});setTxt('');setFb(null);setHint(false);setErr('');setScr('scene')};
+ const submit=()=>{if(!txt.trim()){setErr('Type your line first, or tap Hint for ideas.');return}setErr('');setFb({...evalLine(txt,story.sc[ses.idx]),text:txt.trim()})};
+ const cont=()=>{const sc=story.sc[ses.idx],log=[...ses.log,{loc:sc.loc,actor:sc.line&&sc.actor,line:sc.line,user:fb.text}],scs=[...ses.sc,fb.scores],idx=ses.idx+1,fin=idx>=3;
+  const avg=k=>Math.round(scs.reduce((a,x)=>a+x[k],0)/scs.length),res=Object.fromEntries(['clarity','grammar','vocabulary','natural','relevance'].map(k=>[k,avg(k)]));res.total=Math.round(Object.values(res).reduce((a,b)=>a+b,0)/5);
+  if(!ses.replay){const nx={n:idx,done:fin,log,sc:scs,...(fin?{res}:{})};setSt({...st,[sid]:{...rec(sid),...nx}})}
+  else if(fin){setSt({...st,[sid]:{...rec(sid),replay:{res,count:(rec(sid).replay?.count||0)+1}}})}
+  setSes({...ses,idx,log,sc:scs,res});setTxt('');setFb(null);setHint(false);if(fin)setScr('done')};
+ const sub=persist?'Progress is saved in this browser only (no cloud).':'Storage unavailable — progress may reset when you reopen this page.';
+ if(scr==='intro')return html`<div class="w"><h1>Drama<span>Speak</span></h1><div class="mu">Practice real English by role-playing in drama scenes.</div>
+ <div class="c"><h3>What is Drama Speak?</h3><p>Instead of memorising grammar, you step into a drama scene as a character. Other cast members speak to you, and you answer in English. A virtual drama coach then coaches your line, like a rehearsal.</p></div>
+ <div class="c"><h3>How a session works</h3><ul><li><b>1. Pick a story.</b> Five stories: interview, mystery, restaurant, tough talk, travel trouble.</li><li><b>2. Read the coach's briefing.</b> Learn your character, goal, emotion and useful phrases (about a minute).</li><li><b>3. Play 3 short scenes.</b> Listen to the cast member (tap Play Dialogue), then type your reply.</li><li><b>4. Get coaching.</b> See what worked, what to improve, a more natural version and a role-play tip. Retry as often as you like, or just continue.</li><li><b>5. See your results.</b> A final score, a full transcript, and you can replay any story.</li></ul></div>
+ <div class="c"><h3>Good to know (prototype)</h3><ul><li>You answer by <b>typing</b>. The mic button is a demo and records nothing.</li><li>Feedback and scores are simple <b>estimates from your written text</b>. Pronunciation and voice are not analysed.</li><li>Progress is saved in your browser only, not online.</li></ul></div>
+ <button class="p" onClick=${()=>setScr('home')}>Choose a Story →</button></div>`;
+ if(scr==='home')return html`<div class="w"><h1>Drama<span>Speak</span></h1><div class="mu">Learn English by role-playing in short drama scenes · prototype. ${sub}</div><button class="s" onClick=${()=>setScr('intro')}>How it works</button>
+ <div class="g">${STORIES.map(s=>{const r=rec(s.id),p=pct(s.id);return html`<div class="c" key=${s.id}><h3>${s.title}</h3><div class="mu">${s.desc}</div><div style=${{margin:'10px 0 4px'}}><span class="tag">${s.diff}</span><span class="tag">${s.dur}</span><span class="tag">${p}% complete</span></div><div class="bar"><i style=${{width:p+'%'}}></i></div>
+ ${r.done?html`<div class="mu">Completed · best score ${r.res.total}/100 (estimate)</div>`:''}
+ <button class="p" onClick=${()=>open(s.id)}>${r.n>0&&!r.done?'Continue':r.done?'Review / Replay':'Start'}</button></div>`})}</div></div>`;
+ if(scr==='brief'||scr==='scene'&&!ses){const b=story.b,r=rec(sid);return html`<div class="w"><div class="ov"><div class="c"><div class="mu">COACH'S BRIEFING</div><h2>${story.title}</h2><div class="mu">${b.film}</div><p>${b.ctx}</p>
+ <h3>You play: ${b.char}</h3><p>${b.pers}</p><p><b>Before this scene:</b> ${b.before}</p><p><b>Objective:</b> ${b.obj}</p><p><b>Emotion:</b> ${b.emo} — ${b.how}</p>
+ <p><b>Vocabulary:</b> ${b.vocab.map(v=>html`<span class="tag" key=${v}>${v}</span>`)}</p><p><b>Natural phrases:</b></p><ul>${b.phr.map(v=>html`<li key=${v}>${v}</li>`)}</ul><p><b>Practice:</b> ${b.prac}</p>
+ <button class="s" onClick=${()=>setScr('home')}>Back</button>
+ <button class="p" onClick=${()=>start(false)}>${r.done?'View & Replay Scene 1':r.n>0?'Resume at Scene '+(r.n+1):'Start Scene'}</button>
+ ${r.n>0&&!r.done?html`<button class="s" onClick=${()=>start(true)}>Replay from start</button>`:''}</div></div></div>`}
+ if(scr==='scene'){const sc=story.sc[ses.idx];return html`<div class="w"><div class="row"><button class="s" onClick=${()=>{setScr('home')}}>← Home</button><span class="mu">${ses.replay?'Replay (original record kept) · ':''}Scene ${ses.idx+1} of 3</span></div>
+ <div class="bar"><i style=${{width:ses.idx/3*100+'%'}}></i></div>
+ <div class="c"><div class="mu">SCENE ${ses.idx+1} · ${sc.loc}</div><p>${sc.set}</p></div>
+ <div class="c"><b style=${{color:'var(--am)'}}>${sc.actor}</b><div class="q">“${sc.line}”</div><button class="s" disabled=${!tts} onClick=${()=>say(sc.line)}>▶ Play Dialogue</button>${tts?'':html`<span class="mu">Text-to-speech is not available in this browser.</span>`}</div>
+ <div class="c"><b>${story.b.char}</b> <span class="tag">Emotion: ${story.b.emo}</span><div class="mu">Objective: ${story.b.obj}</div>
+ <textarea value=${txt} placeholder="Type your line here…" onChange=${e=>setTxt(e.target.value)} onInput=${e=>setTxt(e.target.value)}></textarea>
+ ${err?html`<div class="err">${err}</div>`:''}
+ <button class="p" onClick=${submit}>Submit Line</button><button class="s" onClick=${()=>setMic(!mic)}>🎤 Mic (demo)</button><button class="s" onClick=${()=>setHint(!hint)}>Hint</button>
+ ${mic?html`<div class="mu">Demo only: no audio is recorded and no speech is analyzed. Please type your line.</div>`:''}
+ ${hint?html`<div class="mu">💡 ${sc.hint}</div>`:''}</div>
+ ${fb?html`<div class="c f"><h3>Coach's Notes</h3><div class="mu">Based on your written text only — not pronunciation or vocal emotion.</div>
+ <p><b>Communicated well:</b></p><ul>${fb.ok.map(x=>html`<li key=${x}>${x}</li>`)}</ul><p><b>To improve:</b></p><ul>${fb.imp.map(x=>html`<li key=${x}>${x}</li>`)}</ul>
+ <p><b>More natural option:</b> “${sc.alt}”</p><p><b>Role-play tip:</b> ${sc.act}</p><p><b>Try this line:</b> “${sc.sug}”</p>
+ <button class="s" onClick=${()=>{setFb(null);setTxt('')}}>Retry Line</button><button class="p" onClick=${cont}>${ses.idx>=2?'Finish Story':'Continue Scene'}</button></div>`:''}</div>`}
+ if(scr==='done'){const r=ses.replay?(st[sid].replay?.res||ses.res):st[sid].res||ses.res,log=ses.replay?ses.log:(st[sid].log||ses.log),L={clarity:'Clarity',grammar:'Grammar',vocabulary:'Vocabulary',natural:'Natural phrasing',relevance:'Relevance'};
+ return html`<div class="w"><h2>${story.title} — The End</h2><div class="mu">${ses.replay?'Replay result (your original completion record is unchanged).':''} Scores are prototype estimates from simple text checks, not an official assessment.</div>
+ <div class="c"><h1 style=${{color:'var(--am)'}}>${r.total}/100</h1>${Object.keys(L).map(k=>html`<div key=${k}><div class="sb"><span>${L[k]}</span><span>${r[k]}</span></div><div class="bar"><i style=${{width:r[k]+'%'}}></i></div></div>`)}</div>
+ <div class="c"><b>Strengths</b><ul><li>You completed every scene and kept the conversation moving.</li><li>You stayed in character and responded to each supporting cast member.</li><li>${r.relevance>=75?'Your answers were clearly on topic.':'You kept trying new phrasing across retries.'}</li></ul><b>Next steps</b><ul><li>${r.natural<80?'Use more softening phrases (could, would, I\'d like).':'Try adding short connecting words (however, so, actually).'}</li><li>${r.vocabulary<80?'Reuse the briefing vocabulary in your own sentences.':'Aim for one new phrase per scene.'}</li></ul></div>
+ <div class="c"><b>Transcript</b>${log.map((x,i)=>html`<div key=${i} style=${{marginTop:10}}><div class="mu">Scene ${i+1} · ${x.loc}</div><div><b>${x.actor}:</b> ${x.line}</div><div style=${{color:'var(--am)'}}><b>${story.b.char} (you):</b> ${x.user}</div></div>`)}</div>
+ <button class="p" onClick=${()=>start(true)}>Replay Story</button><button class="s" onClick=${()=>setScr('home')}>Return Home</button></div>`}
+}
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+</script></body></html>
